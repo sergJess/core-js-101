@@ -21,7 +21,7 @@
  *    [0, 1, 2, 3, 4, 5], 5    => 5
  */
 function findElement(arr, value) {
-  return arr.findIndex(value);
+  return arr.indexOf(value);
 }
 
 /**
@@ -42,7 +42,7 @@ function generateOdds(len) {
   let counter = 1;
   return filledArray.reduce((accum) => {
     accum.push(counter);
-    counter += 1;
+    counter += 2;
     return accum;
   }, []);
 }
