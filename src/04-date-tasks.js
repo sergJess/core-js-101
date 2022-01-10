@@ -19,8 +19,8 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromRfc2822(value) {
+  return new Date(value);
 }
 
 /**
@@ -53,8 +53,18 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const year = date.getFullYear();
+  if (year % 4 !== 0) {
+    return false;
+  }
+  if (year % 100 !== 0) {
+    return true;
+  }
+  if (year % 400 !== 0) {
+    return false;
+  }
+  return true;
 }
 
 
@@ -73,8 +83,25 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const milliseconds = endDate - startDate;
+  const hours = Math.trunc(milliseconds / 3600000);
+  const minutes = Math.trunc((milliseconds - (hours * 3600000)) / 60000);
+  const seconds = Math.trunc((milliseconds - (hours * 3600000) - (minutes * 60000)) / 1000);
+  const millyHours = hours * 3600000;
+  const millyMinutes = minutes * 60000;
+  const millisecondsLeft = Math.trunc(milliseconds - millyHours - millyMinutes - (seconds * 1000));
+  const resHours = hours > 9 ? `${hours}` : `0${hours}`;
+  const minutesRes = minutes > 9 ? `${minutes}` : `0${minutes}`;
+  const secondsRes = seconds > 9 ? `${seconds}` : `0${seconds}`;
+  let millisecondsRes = `${millisecondsLeft}`;
+  if (millisecondsLeft <= 10) {
+    millisecondsRes = `00${millisecondsLeft}`;
+  }
+  if (millisecondsLeft >= 10 && millisecondsLeft < 100) {
+    millisecondsRes = `0${millisecondsLeft}`;
+  }
+  return `${resHours}:${minutesRes}:${secondsRes}.${millisecondsRes}`;
 }
 
 
