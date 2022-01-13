@@ -292,8 +292,21 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const str = `${ccn}`;
+  const isOdd = (str.length - 1) % 2 === 0;
+  let sum = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    let digit = Number(str[i]);
+    if (!!(i % 2) === isOdd) {
+      digit *= 2;
+    }
+    if (digit > 9) {
+      digit -= 9;
+    }
+    sum += digit;
+  }
+  return (sum % 10) === 0;
 }
 
 /**
@@ -386,8 +399,8 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -426,8 +439,23 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const res = [];
+  for (let i = 0; i < m1.length; i += 1) {
+    const subRes = [];
+    let el = 0;
+    let len = 0;
+    while (len < m1[i].length) {
+      for (let j = 0; j < m1[i].length; j += 1) {
+        el += m1[i][j] * m2[j][len];
+      }
+      subRes.push(el);
+      el = 0;
+      len += 1;
+    }
+    res.push(subRes.filter((x) => x));
+  }
+  return res;
 }
 
 
